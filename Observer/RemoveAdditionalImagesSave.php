@@ -33,6 +33,9 @@ use Magento\Backend\App\Action;
 
      protected $request;
 
+	 /**@var \Magento\Catalog\Api\ProductRepositoryInterface **/
+	 protected $productRepository;
+
     /**
      * Save constructor.
      * @param Action\Context $context
@@ -43,11 +46,16 @@ use Magento\Backend\App\Action;
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
+//        \Magento\Catalog\Model\ProductFactory $product,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagement,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Request\Http $request,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeHelper
     ) {
+//    	$this->product = $product;
+
+	    $this->productRepository = $productRepository;
         $this->categoryLinkManagement = $categoryLinkManagement;
         $this->messageManager = $messageManager;
         $this->attributeHelper = $attributeHelper;
@@ -67,29 +75,12 @@ use Magento\Backend\App\Action;
      */
     private function getProductCollection(){
         if(!$this->productCollection){
-            $this->productCollection = $this->attributeHelper->getProducts();
+            $this->productCollection = $this->attributeHelper
+	            ->getProducts()
+	            ->addMediaGalleryData();
         }
         return $this->productCollection;
     }
-//
-//    /**
-//     * @param array $categoryIds
-//     */
-//    public function addProductToCategory($categoryIds=[]){
-//        if(!count($categoryIds)){
-//            return;
-//        }
-//        foreach($this->getProductCollection() as $product) {
-//            $categoryIdsArray = array_unique(
-//                array_merge($categoryIds, $product->getCategoryIds()),
-//                SORT_STRING
-//            );
-//            $this->categoryLinkManagement->assignProductToCategories(
-//                $product->getSku(),
-//                $categoryIdsArray
-//            );
-//        }
-//    }
 
     /**
      * @param array $categoryIds
@@ -97,11 +88,13 @@ use Magento\Backend\App\Action;
     public function removeAdditionalImagesFromProduct($product){
 	    $existingMediaGalleryEntries = $product->getMediaGalleryEntries();
 	    foreach ($existingMediaGalleryEntries as $key => $entry) {
-		    //We can add your condition here
+//		    $x = $entry->getTypes();
+		    /////////////// needs filter heer to stop all images being removed, ie the base thumbnail, small
 		    unset($existingMediaGalleryEntries[$key]);
 	    }
 	    $product->setMediaGalleryEntries($existingMediaGalleryEntries);
-//	    $this->productRepository->save($product);
+	    $this->productRepository->save($product);
+
     }
 
      /**
@@ -130,7 +123,7 @@ use Magento\Backend\App\Action;
         } catch (\Exception $e) {
             $this->messageManager->addException(
                 $e,
-                __('Something went wrong while updating the product(s) categories.')
+                __('Something went wrong while updating the product(s) gallery images.')
             );
         }
     }
