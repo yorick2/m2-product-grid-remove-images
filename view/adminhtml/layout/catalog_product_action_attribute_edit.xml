@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<page>
+    <body>
+        <referenceBlock  name="attributes_tabs">
+            <block class="Paulmillband\ProductGridRemoveAdditionalImages\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\ImagesTab"
+               name="tab_additional_images"
+               template="Paulmillband_ProductGridRemoveAdditionalImages::catalog/product/edit/action/ImagesTab.phtml"
+            >
+               <!--<block class="Paulmillband\ProductGridRemoveAdditionalImages\Block\Adminhtml\Product\Edit\Action\Attribute\Tab\CategoryList"-->
+                   <!--name="tab_categories_add"-->
+                   <!--template="Paulmillband_ProductGridRemoveAdditionalImages::catalog/product/edit/action/addCategories.phtml"-->
+               <!--/>-->
+            </block>
+            <action method="addTab">
+                <argument name="name" xsi:type="string">remove_additional_images</argument>
+                <argument name="block" xsi:type="string">tab_additional_images</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
