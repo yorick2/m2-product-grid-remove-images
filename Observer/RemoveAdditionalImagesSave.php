@@ -33,9 +33,6 @@ use Magento\Backend\App\Action;
 
      protected $request;
 
-	 /**@var \Magento\Catalog\Api\ProductRepositoryInterface **/
-	 protected $productRepository;
-
     /**
      * Save constructor.
      * @param Action\Context $context
@@ -46,15 +43,12 @@ use Magento\Backend\App\Action;
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-//        \Magento\Catalog\Model\ProductFactory $product,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagement,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Request\Http $request,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeHelper
     ) {
-//    	$this->product = $product;
-
 	    $this->productRepository = $productRepository;
         $this->categoryLinkManagement = $categoryLinkManagement;
         $this->messageManager = $messageManager;
@@ -77,24 +71,29 @@ use Magento\Backend\App\Action;
         if(!$this->productCollection){
             $this->productCollection = $this->attributeHelper
 	            ->getProducts()
+	            ->addFieldToSelect("image")
+	            ->addFieldToSelect("small_image")
+	            ->addFieldToSelect("thumbnail")
 	            ->addMediaGalleryData();
         }
         return $this->productCollection;
     }
 
-    /**
-     * @param array $categoryIds
-     */
+	 /**
+	  * @param $product
+	  * @throws \Magento\Framework\Exception\CouldNotSaveException
+	  * @throws \Magento\Framework\Exception\InputException
+	  * @throws \Magento\Framework\Exception\StateException
+	  */
     public function removeAdditionalImagesFromProduct($product){
 	    $existingMediaGalleryEntries = $product->getMediaGalleryEntries();
 	    foreach ($existingMediaGalleryEntries as $key => $entry) {
-//		    $x = $entry->getTypes();
-		    /////////////// needs filter heer to stop all images being removed, ie the base thumbnail, small
-		    unset($existingMediaGalleryEntries[$key]);
+		    if (!count($entry->getTypes())) {
+		    	unset($existingMediaGalleryEntries[$key]);
+		    }
 	    }
 	    $product->setMediaGalleryEntries($existingMediaGalleryEntries);
 	    $this->productRepository->save($product);
-
     }
 
      /**
