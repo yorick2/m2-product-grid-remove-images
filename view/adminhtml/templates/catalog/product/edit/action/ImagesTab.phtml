@@ -4,14 +4,44 @@
             <span><?=  __("Remove the additional images") ?></span>
         </legend>
         <br>
+        <p>Please note this may be a slow operation and should be separately to other changes</p>
         <div class="fields">
-            <input name="remove_additional_images"
-                   class="checkbox category-checkbox"
-                   id="remove_additional_images"
-                   type="checkbox" />
-            <label for="remove_additional_images">
-                Remove Additional/Gallery Images From Selected Products
-            </label>
+            <div class="field">
+                <input name="remove_base_images"
+                       class="checkbox category-checkbox"
+                       id="remove_base_images"
+                       type="checkbox" />
+                <label for="remove_base_images">
+                    Remove Base Images
+                </label>
+            </div>
+            <div class="field">
+                <input name="remove_small_images"
+                       class="checkbox category-checkbox"
+                       id="remove_small_images"
+                       type="checkbox" />
+                <label for="remove_small_images">
+                    Remove Small Images
+                </label>
+            </div>
+            <div class="field">
+                <input name="remove_thumbnail_images"
+                       class="checkbox category-checkbox"
+                       id="remove_thumbnail_images"
+                       type="checkbox" />
+                <label for="remove_thumbnail_images">
+                    Remove thumbnail Images
+                </label>
+            </div>
+            <div class="field">
+                <input name="remove_additional_images"
+                       class="checkbox category-checkbox"
+                       id="remove_additional_images"
+                       type="checkbox" />
+                <label for="remove_additional_images">
+                    Remove Additional/Gallery Images
+                </label>
+            </div>
         </div>
     </fieldset>
 </div>

@@ -32,6 +32,10 @@ use Magento\Backend\App\Action;
 
 
      protected $request;
+     protected $removeBaseImages;
+     protected $removeSmallImages;
+     protected $removeThumbnailImages;
+     protected $removeAdditionalImages;
 
     /**
      * Save constructor.
@@ -79,16 +83,33 @@ use Magento\Backend\App\Action;
         return $this->productCollection;
     }
 
+    protected function isDeleteImage($image){
+    	$types = $image->getTypes();
+    	if (in_array('image', $types) && $this->removeBaseImages !== 'on') {
+    		return false;
+	    }
+    	if (in_array('small', $types) && $this->removeSmallImages !== 'on' ) {
+    		return false;
+	    }
+    	if (in_array('thumbnail', $types) && $this->removeThumbnailImages !== 'on' ) {
+    		return false;
+	    }
+    	if (!count($types) && $this->removeAdditionalImages !== 'on') {
+    		return false;
+	    }
+	   return true;
+    }
+
 	 /**
 	  * @param $product
 	  * @throws \Magento\Framework\Exception\CouldNotSaveException
 	  * @throws \Magento\Framework\Exception\InputException
 	  * @throws \Magento\Framework\Exception\StateException
 	  */
-    public function removeAdditionalImagesFromProduct($product){
+	  protected function removeAdditionalImagesFromProduct($product){
 	    $existingMediaGalleryEntries = $product->getMediaGalleryEntries();
 	    foreach ($existingMediaGalleryEntries as $key => $entry) {
-		    if (!count($entry->getTypes())) {
+		    if ($this->isDeleteImage($entry)) {
 		    	unset($existingMediaGalleryEntries[$key]);
 		    }
 	    }
@@ -105,18 +126,22 @@ use Magento\Backend\App\Action;
         if (!$this->getProductCollection()) {
             return ;
         }
-        if($this->getRequest()->getParam('remove_additional_images') === null){
+	    $this->removeBaseImages = $this->getRequest()->getParam('remove_base_images');
+	    $this->removeSmallImages = $this->getRequest()->getParam('remove_small_images') ;
+	    $this->removeThumbnailImages = $this->getRequest()->getParam('remove_thumbnail_images');
+	    $this->removeAdditionalImages = $this->getRequest()->getParam('remove_additional_images');
+        if(
+	        $this->removeBaseImages === null &&
+	        $this->removeSmallImages === null &&
+	        $this->removeThumbnailImages === null &&
+	        $this->removeAdditionalImages === null
+        ){
 			return ;
         }
         try {
 	        foreach($this->getProductCollection() as $product) {
 	            $this->removeAdditionalImagesFromProduct($product);
 	        }
-            $this->messageManager
-                ->addSuccess(__(
-                    'A total of %1 record(s) were updated.',
-                    count($this->attributeHelper->getProductIds())
-                ));
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
