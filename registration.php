@@ -1,6 +1,6 @@
 <?php
 /**
- * Paulmillband_ProductGridRemoveAdditionalImages Module Registration.
+ * Paulmillband_ProductGridRemoveImages Module Registration.
  *
  * @category    Paulmillband
  *
@@ -8,6 +8,6 @@
  */
 \Magento\Framework\Component\ComponentRegistrar::register(
     \Magento\Framework\Component\ComponentRegistrar::MODULE,
-    'Paulmillband_ProductGridRemoveAdditionalImages',
+    'Paulmillband_ProductGridRemoveImages',
     __DIR__
 );

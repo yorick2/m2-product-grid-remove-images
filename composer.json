@@ -1,5 +1,5 @@
 {
-  "name": "paulmillband/m2-product-grid-remove-additional-images",
+  "name": "paulmillband/m2-product-grid-remove-images",
   "description": "magento 2 - Add the ability to mass update the products categories, in the product grid.",
   "type": "magento2-module",
   "authors": [
@@ -11,7 +11,7 @@
   "autoload": {
     "files": [ "registration.php" ],
     "psr-4": {
-      "Paulmillband\\ProductGridRemoveAdditionalImages\\": ""
+      "Paulmillband\\ProductGridRemoveImages\\": ""
     }
   }
 }

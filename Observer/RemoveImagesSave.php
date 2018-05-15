@@ -1,12 +1,12 @@
 <?php
-namespace Paulmillband\ProductGridRemoveAdditionalImages\Observer;
+namespace Paulmillband\ProductGridRemoveImages\Observer;
 
 use Magento\Backend\App\Action;
 
 /**
  * Class Save
  */
- class RemoveAdditionalImagesSave
+ class RemoveImagesSave
     implements \Magento\Framework\Event\ObserverInterface
 {
 
@@ -32,9 +32,25 @@ use Magento\Backend\App\Action;
 
 
      protected $request;
+
+	 /**
+	  * @var 'on'|null
+	  */
      protected $removeBaseImages;
+
+	 /**
+	  * @var 'on'|null
+	  */
      protected $removeSmallImages;
+
+	 /**
+	  * @var 'on'|null
+	  */
      protected $removeThumbnailImages;
+
+	 /**
+	  * @var 'on'|null
+	  */
      protected $removeAdditionalImages;
 
     /**
@@ -106,7 +122,7 @@ use Magento\Backend\App\Action;
 	  * @throws \Magento\Framework\Exception\InputException
 	  * @throws \Magento\Framework\Exception\StateException
 	  */
-	  protected function removeAdditionalImagesFromProduct($product){
+	  protected function removeImagesFromProduct($product){
 	    $existingMediaGalleryEntries = $product->getMediaGalleryEntries();
 	    foreach ($existingMediaGalleryEntries as $key => $entry) {
 		    if ($this->isDeleteImage($entry)) {
@@ -140,7 +156,7 @@ use Magento\Backend\App\Action;
         }
         try {
 	        foreach($this->getProductCollection() as $product) {
-	            $this->removeAdditionalImagesFromProduct($product);
+	            $this->removeImagesFromProduct($product);
 	        }
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $this->messageManager->addError($e->getMessage());

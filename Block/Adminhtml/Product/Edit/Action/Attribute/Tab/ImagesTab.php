@@ -1,5 +1,5 @@
 <?php
-namespace Paulmillband\ProductGridRemoveAdditionalImages\Block\Adminhtml\Product\Edit\Action\Attribute\Tab;
+namespace Paulmillband\ProductGridRemoveImages\Block\Adminhtml\Product\Edit\Action\Attribute\Tab;
 
 class ImagesTab extends \Magento\Backend\Block\Widget
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -11,7 +11,7 @@ class ImagesTab extends \Magento\Backend\Block\Widget
      */
     public function getTabLabel()
     {
-        return __('Additional Images');
+        return __('Images');
     }
 
     /**
@@ -19,7 +19,7 @@ class ImagesTab extends \Magento\Backend\Block\Widget
      */
     public function getTabTitle()
     {
-        return __('Additional Images');
+        return __('Images');
     }
 
     /**
