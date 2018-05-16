@@ -65,13 +65,12 @@ use Magento\Backend\App\Action;
         \Magento\Backend\App\Action\Context $context,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Api\CategoryLinkManagementInterface $categoryLinkManagement,
-        \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Request\Http $request,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $attributeHelper
     ) {
 	    $this->productRepository = $productRepository;
         $this->categoryLinkManagement = $categoryLinkManagement;
-        $this->messageManager = $messageManager;
+        $this->messageManager = $context->getMessageManager();
         $this->attributeHelper = $attributeHelper;
         $this->request = $request;
     }
