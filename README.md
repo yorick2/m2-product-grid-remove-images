@@ -2,7 +2,7 @@
 Note: The images are removed on a global level
 
 ## Installation
-- composer config repositories.paulmillband-add-products-to-categories-in-admin vcs git@bitbucket.org:yorick2/magento-2-product-grid-remove-images.git
+- composer config repositories.paulmillband-add-products-to-categories-in-admin vcs git@github.com:yorick2/m2-product-grid-remove-images.git
 - composer require paulmillband/m2-product-grid-remove-images:dev-master
 - composer update 
 - php bin/magento module:enable Paulmillband_ProductGridRemoveImages
