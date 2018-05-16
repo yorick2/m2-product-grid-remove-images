@@ -1,4 +1,5 @@
 # magento 2 - Add the ability to mass delete images from product's in the product grid.
+Note: The images are removed on a global level
 
 ## Installation
 - composer config repositories.paulmillband-add-products-to-categories-in-admin vcs git@bitbucket.org:yorick2/magento-2-product-grid-remove-images.git
